@@ -1,0 +1,13 @@
+# FlowSoft WP — Directory Protection
+# Deny direct access to PHP files in the plugin directory.
+
+<FilesMatch "\.php$">
+    Order Deny,Allow
+    Deny from all
+</FilesMatch>
+
+# Allow the main plugin file to be loaded by WordPress
+<Files "flowsoft-wp.php">
+    Order Allow,Deny
+    Allow from all
+</Files>

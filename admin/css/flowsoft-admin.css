@@ -1,0 +1,2257 @@
+/**
+ * FlowSoft WP — Admin Styles
+ *
+ * Modern, premium admin dashboard design inspired by SaaS CMS interfaces.
+ * Uses CSS custom properties, flexbox/grid, and micro-animations.
+ */
+
+/* ================================================================
+   CSS CUSTOM PROPERTIES
+   ================================================================ */
+:root {
+    /* Colors — Primary palette */
+    --fs-primary: #4F46E5;
+    --fs-primary-hover: #4338CA;
+    --fs-primary-light: #EEF2FF;
+    --fs-primary-50: rgba(79, 70, 229, 0.08);
+
+    /* Colors — Semantic */
+    --fs-success: #10B981;
+    --fs-success-light: #D1FAE5;
+    --fs-warning: #F59E0B;
+    --fs-warning-light: #FEF3C7;
+    --fs-danger: #EF4444;
+    --fs-danger-light: #FEE2E2;
+    --fs-info: #3B82F6;
+    --fs-info-light: #DBEAFE;
+
+    /* Colors — Neutral */
+    --fs-white: #FFFFFF;
+    --fs-gray-25: #FCFCFD;
+    --fs-gray-50: #F9FAFB;
+    --fs-gray-100: #F3F4F6;
+    --fs-gray-200: #E5E7EB;
+    --fs-gray-300: #D1D5DB;
+    --fs-gray-400: #9CA3AF;
+    --fs-gray-500: #6B7280;
+    --fs-gray-600: #4B5563;
+    --fs-gray-700: #374151;
+    --fs-gray-800: #1F2937;
+    --fs-gray-900: #111827;
+
+    /* Typography */
+    --fs-font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --fs-font-mono: 'JetBrains Mono', 'Fira Code', 'SF Mono', Consolas, monospace;
+
+    /* Spacing */
+    --fs-space-xs: 4px;
+    --fs-space-sm: 8px;
+    --fs-space-md: 16px;
+    --fs-space-lg: 24px;
+    --fs-space-xl: 32px;
+    --fs-space-2xl: 48px;
+
+    /* Borders */
+    --fs-radius-sm: 6px;
+    --fs-radius-md: 10px;
+    --fs-radius-lg: 14px;
+    --fs-radius-xl: 20px;
+    --fs-radius-full: 9999px;
+
+    /* Shadows */
+    --fs-shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.04);
+    --fs-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+    --fs-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.06), 0 2px 4px -2px rgba(0, 0, 0, 0.04);
+    --fs-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.06), 0 4px 6px -4px rgba(0, 0, 0, 0.04);
+    --fs-shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.06), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+
+    /* Transitions */
+    --fs-transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    --fs-transition-slow: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ================================================================
+   RESET & BASE
+   ================================================================ */
+.flowsoft-wrap {
+    font-family: var(--fs-font);
+    color: var(--fs-gray-800);
+    font-size: 14px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    margin: -8px -2px 0 -20px;
+    min-height: 100vh;
+    background: var(--fs-gray-50);
+}
+
+.flowsoft-wrap *,
+.flowsoft-wrap *::before,
+.flowsoft-wrap *::after {
+    box-sizing: border-box;
+}
+
+/* Hide the default WP admin notices on our page */
+.flowsoft-wrap .notice,
+.flowsoft-wrap .updated,
+.flowsoft-wrap .error:not(.flowsoft-status-badge--error) {
+    display: none !important;
+}
+
+/* ================================================================
+   HEADER
+   ================================================================ */
+.flowsoft-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 var(--fs-space-lg);
+    height: 64px;
+    background: var(--fs-white);
+    border-bottom: 1px solid var(--fs-gray-200);
+    position: sticky;
+    top: 32px;
+    /* Below WP admin bar */
+    z-index: 100;
+    box-shadow: var(--fs-shadow-xs);
+}
+
+@media screen and (max-width: 782px) {
+    .flowsoft-header {
+        top: 46px;
+        flex-wrap: wrap;
+        height: auto;
+        padding: var(--fs-space-sm) var(--fs-space-md);
+        gap: var(--fs-space-sm);
+    }
+}
+
+.flowsoft-header__brand {
+    display: flex;
+    align-items: center;
+    gap: var(--fs-space-sm);
+    flex-shrink: 0;
+}
+
+.flowsoft-header__brand-svg {
+    height: 51px;
+    width: auto;
+    display: block;
+}
+
+.flowsoft-header__title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--fs-gray-900);
+    margin: 0;
+    padding: 0;
+    letter-spacing: -0.025em;
+}
+
+img {
+    width: 38px;
+    height: 38px;
+}
+
+.flowsoft-header__title span {
+    color: var(--fs-primary);
+}
+
+.flowsoft-header__version {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--fs-gray-400);
+    background: var(--fs-gray-100);
+    padding: 2px 8px;
+    border-radius: var(--fs-radius-full);
+}
+
+/* Navigation */
+.flowsoft-header__nav {
+    display: flex;
+    align-items: center;
+    gap: var(--fs-space-xs);
+}
+
+.flowsoft-header__nav-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--fs-gray-500);
+    text-decoration: none;
+    border-radius: var(--fs-radius-sm);
+    transition: var(--fs-transition);
+    white-space: nowrap;
+}
+
+.flowsoft-header__nav-item:hover {
+    color: var(--fs-gray-800);
+    background: var(--fs-gray-100);
+}
+
+.flowsoft-header__nav-item.is-active {
+    color: var(--fs-primary);
+    background: var(--fs-primary-light);
+}
+
+.flowsoft-header__nav-item:focus {
+    outline: 2px solid var(--fs-primary);
+    outline-offset: -2px;
+    color: var(--fs-gray-800);
+}
+
+.flowsoft-header__nav-item svg {
+    opacity: 0.7;
+    flex-shrink: 0;
+}
+
+.flowsoft-header__nav-item.is-active svg {
+    opacity: 1;
+}
+
+/* Health Badge */
+.flowsoft-header__status {
+    flex-shrink: 0;
+}
+
+.flowsoft-header__health {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 6px 14px;
+    border-radius: var(--fs-radius-full);
+}
+
+.flowsoft-health-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    animation: fs-pulse 2s ease-in-out infinite;
+}
+
+.flowsoft-health--good {
+    color: #059669;
+    background: var(--fs-success-light);
+}
+
+.flowsoft-health--good .flowsoft-health-dot {
+    background: var(--fs-success);
+}
+
+.flowsoft-health--warn {
+    color: #D97706;
+    background: var(--fs-warning-light);
+}
+
+.flowsoft-health--warn .flowsoft-health-dot {
+    background: var(--fs-warning);
+}
+
+.flowsoft-health--bad {
+    color: #DC2626;
+    background: var(--fs-danger-light);
+}
+
+.flowsoft-health--bad .flowsoft-health-dot {
+    background: var(--fs-danger);
+}
+
+@keyframes fs-pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.5;
+        transform: scale(0.85);
+    }
+}
+
+/* ================================================================
+   MAIN CONTENT
+   ================================================================ */
+.flowsoft-main {
+    padding: var(--fs-space-lg);
+    max-width: 1340px;
+    margin: 0 auto;
+}
+
+@media screen and (max-width: 782px) {
+    .flowsoft-main {
+        padding: var(--fs-space-md);
+    }
+}
+
+/* ================================================================
+   STATS CARDS ROW
+   ================================================================ */
+.flowsoft-stats-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--fs-space-md);
+    margin-bottom: var(--fs-space-lg);
+}
+
+@media screen and (max-width: 1200px) {
+    .flowsoft-stats-row {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .flowsoft-stats-row {
+        grid-template-columns: 1fr;
+    }
+}
+
+.flowsoft-stat-card {
+    display: flex;
+    align-items: center;
+    gap: var(--fs-space-md);
+    padding: var(--fs-space-lg);
+    background: var(--fs-white);
+    border: 1px solid var(--fs-gray-200);
+    border-radius: var(--fs-radius-lg);
+    box-shadow: var(--fs-shadow-sm);
+    transition: var(--fs-transition);
+    position: relative;
+    overflow: hidden;
+}
+
+.flowsoft-stat-card:hover {
+    box-shadow: var(--fs-shadow-md);
+    transform: translateY(-1px);
+}
+
+.flowsoft-stat-card--health {
+    grid-column: span 1;
+}
+
+.flowsoft-stat-card__icon-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: var(--fs-radius-md);
+    flex-shrink: 0;
+}
+
+.flowsoft-stat-card__icon-wrap--indigo {
+    background: var(--fs-primary-light);
+    color: var(--fs-primary);
+}
+
+.flowsoft-stat-card__icon-wrap--emerald {
+    background: var(--fs-success-light);
+    color: var(--fs-success);
+}
+
+.flowsoft-stat-card__icon-wrap--amber {
+    background: var(--fs-warning-light);
+    color: var(--fs-warning);
+}
+
+.flowsoft-stat-card__icon-wrap--rose {
+    background: var(--fs-danger-light);
+    color: var(--fs-danger);
+}
+
+.flowsoft-stat-card__content {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+
+.flowsoft-stat-card__label {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--fs-gray-500);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.flowsoft-stat-card__value {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--fs-gray-900);
+    letter-spacing: -0.025em;
+    line-height: 1.2;
+}
+
+/* Health Gauge */
+.flowsoft-stat-card__gauge {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 64px;
+    height: 64px;
+}
+
+.flowsoft-gauge-svg {
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+}
+
+.flowsoft-gauge-bg {
+    fill: none;
+    stroke: var(--fs-gray-100);
+    stroke-width: 8;
+}
+
+.flowsoft-gauge-fill {
+    fill: none;
+    stroke: var(--fs-primary);
+    stroke-width: 8;
+    stroke-linecap: round;
+    stroke-dasharray: 314;
+    stroke-dashoffset: 314;
+    transition: stroke-dashoffset 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.flowsoft-gauge-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--fs-primary);
+}
+
+/* ================================================================
+   DASHBOARD GRID
+   ================================================================ */
+.flowsoft-dashboard-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: var(--fs-space-lg);
+    margin-bottom: var(--fs-space-lg);
+}
+
+@media screen and (max-width: 960px) {
+    .flowsoft-dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ================================================================
+   CARDS
+   ================================================================ */
+.flowsoft-card {
+    background: var(--fs-white);
+    border: 1px solid var(--fs-gray-200);
+    border-radius: var(--fs-radius-lg);
+    box-shadow: var(--fs-shadow-sm);
+    margin-bottom: var(--fs-space-lg);
+    overflow: hidden;
+}
+
+.flowsoft-card:last-child {
+    margin-bottom: 0;
+}
+
+.flowsoft-card--danger {
+    border-color: var(--fs-danger-light);
+}
+
+.flowsoft-card__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--fs-space-md) var(--fs-space-lg);
+    border-bottom: 1px solid var(--fs-gray-100);
+}
+
+.flowsoft-card__title {
+    display: flex;
+    align-items: center;
+    gap: var(--fs-space-sm);
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--fs-gray-800);
+    margin: 0;
+    padding: 0;
+}
+
+.flowsoft-card__title svg {
+    color: var(--fs-gray-400);
+}
+
+.flowsoft-card__title--danger {
+    color: var(--fs-danger);
+}
+
+.flowsoft-card__title--danger svg {
+    color: var(--fs-danger);
+}
+
+.flowsoft-card__link {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--fs-primary);
+    text-decoration: none;
+    transition: var(--fs-transition);
+}
+
+.flowsoft-card__link:hover {
+    color: var(--fs-primary-hover);
+}
+
+.flowsoft-card__body {
+    padding: var(--fs-space-lg);
+}
+
+.flowsoft-card__body--no-padding {
+    padding: 0;
+}
+
+/* ================================================================
+   MODULE STATUS GRID (Dashboard)
+   ================================================================ */
+.flowsoft-module-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: var(--fs-space-sm);
+}
+
+.flowsoft-module-status-card {
+    display: flex;
+    align-items: center;
+    gap: var(--fs-space-sm);
+    padding: 12px 14px;
+    background: var(--fs-gray-50);
+    border: 1px solid var(--fs-gray-200);
+    border-radius: var(--fs-radius-md);
+    transition: var(--fs-transition);
+    cursor: default;
+}
+
+.flowsoft-module-status-card.is-enabled {
+    background: var(--fs-white);
+    border-color: var(--fs-success-light);
+}
+
+.flowsoft-module-status-card.is-disabled {
+    opacity: 0.6;
+}
+
+.flowsoft-module-status-card__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: var(--fs-radius-sm);
+    background: var(--fs-primary-50);
+    color: var(--fs-primary);
+    flex-shrink: 0;
+}
+
+.flowsoft-module-status-card__info {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    min-width: 0;
+    flex: 1;
+}
+
+.flowsoft-module-status-card__name {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--fs-gray-800);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.flowsoft-module-status-card__next {
+    font-size: 11px;
+    color: var(--fs-gray-400);
+}
+
+.flowsoft-module-status-card__badge {
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: var(--fs-radius-full);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    flex-shrink: 0;
+}
+
+.flowsoft-module-status-card__badge.is-on {
+    background: var(--fs-success-light);
+    color: #059669;
+}
+
+.flowsoft-module-status-card__badge.is-off {
+    background: var(--fs-gray-100);
+    color: var(--fs-gray-400);
+}
+
+/* ================================================================
+   MODULE CARDS (Modules page)
+   ================================================================ */
+.flowsoft-modules-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: var(--fs-space-lg);
+}
+
+@media screen and (max-width: 760px) {
+    .flowsoft-modules-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.flowsoft-module-card {
+    background: var(--fs-white);
+    border: 1px solid var(--fs-gray-200);
+    border-radius: var(--fs-radius-lg);
+    box-shadow: var(--fs-shadow-sm);
+    padding: var(--fs-space-lg);
+    display: flex;
+    flex-direction: column;
+    gap: var(--fs-space-md);
+    transition: var(--fs-transition);
+    position: relative;
+}
+
+.flowsoft-module-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--fs-primary), var(--fs-success));
+    border-radius: var(--fs-radius-lg) var(--fs-radius-lg) 0 0;
+    opacity: 0;
+    transition: var(--fs-transition);
+}
+
+.flowsoft-module-card.is-enabled::before {
+    opacity: 1;
+}
+
+.flowsoft-module-card.is-disabled {
+    opacity: 0.65;
+}
+
+.flowsoft-module-card:hover {
+    box-shadow: var(--fs-shadow-md);
+}
+
+.flowsoft-module-card__header {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--fs-space-md);
+}
+
+.flowsoft-module-card__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: var(--fs-radius-md);
+    background: linear-gradient(135deg, var(--fs-primary-light), #EDE9FE);
+    color: var(--fs-primary);
+    flex-shrink: 0;
+}
+
+.flowsoft-module-card__title-wrap {
+    flex: 1;
+    min-width: 0;
+}
+
+.flowsoft-module-card__title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--fs-gray-900);
+    margin: 0;
+    padding: 0;
+}
+
+.flowsoft-module-card__schedule {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    color: var(--fs-gray-400);
+    margin-top: 2px;
+}
+
+.flowsoft-module-card__desc {
+    font-size: 13px;
+    color: var(--fs-gray-500);
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* Module stats */
+.flowsoft-module-card__stats {
+    display: flex;
+    gap: var(--fs-space-md);
+    padding: var(--fs-space-md);
+    background: var(--fs-gray-50);
+    border-radius: var(--fs-radius-md);
+    border: 1px solid var(--fs-gray-100);
+}
+
+.flowsoft-module-card__stat {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    flex: 1;
+    text-align: center;
+}
+
+.flowsoft-module-card__stat-value {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--fs-gray-900);
+    letter-spacing: -0.025em;
+}
+
+.flowsoft-module-card__stat-label {
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--fs-gray-400);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.flowsoft-module-card__actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--fs-space-sm);
+    margin-top: auto;
+}
+
+
+/* ================================================================
+   TOGGLE SWITCH
+   ================================================================ */
+.flowsoft-toggle {
+    position: relative;
+    display: inline-block;
+    width: 44px;
+    height: 24px;
+    flex-shrink: 0;
+    cursor: pointer;
+}
+
+.flowsoft-toggle__input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+    position: absolute;
+}
+
+.flowsoft-toggle__slider {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--fs-gray-300);
+    border-radius: var(--fs-radius-full);
+    transition: var(--fs-transition);
+}
+
+.flowsoft-toggle__slider::before {
+    content: '';
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    left: 3px;
+    bottom: 3px;
+    background: var(--fs-white);
+    border-radius: 50%;
+    transition: var(--fs-transition);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+}
+
+.flowsoft-toggle__input:checked+.flowsoft-toggle__slider {
+    background: var(--fs-primary);
+}
+
+.flowsoft-toggle__input:checked+.flowsoft-toggle__slider::before {
+    transform: translateX(20px);
+}
+
+.flowsoft-toggle__input:focus-visible+.flowsoft-toggle__slider {
+    outline: 2px solid var(--fs-primary);
+    outline-offset: 2px;
+}
+
+/* ================================================================
+   BUTTONS
+   ================================================================ */
+.flowsoft-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 8px 16px;
+    font-family: var(--fs-font);
+    font-size: 13px;
+    font-weight: 500;
+    border: 1px solid transparent;
+    border-radius: var(--fs-radius-sm);
+    cursor: pointer;
+    transition: var(--fs-transition);
+    text-decoration: none;
+    white-space: nowrap;
+    line-height: 1.4;
+}
+
+.flowsoft-btn:focus-visible {
+    outline: 2px solid var(--fs-primary);
+    outline-offset: 2px;
+}
+
+.flowsoft-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.flowsoft-btn svg {
+    flex-shrink: 0;
+}
+
+/* Primary */
+.flowsoft-btn--primary {
+    background: var(--fs-primary);
+    color: var(--fs-white);
+    border-color: var(--fs-primary);
+}
+
+.flowsoft-btn--primary:hover:not(:disabled) {
+    background: var(--fs-primary-hover);
+    border-color: var(--fs-primary-hover);
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+    transform: translateY(-1px);
+}
+
+.flowsoft-btn--primary:active:not(:disabled) {
+    transform: translateY(0);
+    box-shadow: 0 2px 6px rgba(79, 70, 229, 0.25);
+}
+
+/* Secondary */
+.flowsoft-btn--secondary {
+    background: var(--fs-white);
+    color: var(--fs-gray-700);
+    border-color: var(--fs-gray-200);
+}
+
+.flowsoft-btn--secondary:hover:not(:disabled) {
+    background: var(--fs-gray-50);
+    border-color: var(--fs-gray-300);
+}
+
+.flowsoft-btn--secondary:active:not(:disabled) {
+    background: var(--fs-gray-100);
+    transform: scale(0.98);
+}
+
+/* Ghost */
+.flowsoft-btn--ghost {
+    background: transparent;
+    color: var(--fs-gray-600);
+    border-color: transparent;
+}
+
+.flowsoft-btn--ghost:hover:not(:disabled) {
+    background: var(--fs-gray-100);
+    color: var(--fs-gray-800);
+}
+
+/* Danger */
+.flowsoft-btn--danger {
+    background: var(--fs-white);
+    color: var(--fs-danger);
+    border-color: var(--fs-danger-light);
+}
+
+.flowsoft-btn--danger:hover:not(:disabled) {
+    background: var(--fs-danger);
+    color: var(--fs-white);
+    border-color: var(--fs-danger);
+}
+
+/* Sizes */
+.flowsoft-btn--sm {
+    padding: 5px 12px;
+    font-size: 12px;
+}
+
+.flowsoft-btn--lg {
+    padding: 12px 24px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.flowsoft-btn--block {
+    width: 100%;
+}
+
+/* Loading state */
+.flowsoft-btn.is-loading {
+    position: relative;
+    color: transparent !important;
+    pointer-events: none;
+}
+
+.flowsoft-btn.is-loading::after {
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    top: 50%;
+    left: 50%;
+    margin: -8px 0 0 -8px;
+    border: 2px solid currentColor;
+    border-right-color: transparent;
+    border-radius: 50%;
+    animation: fs-spin 0.6s linear infinite;
+    color: var(--fs-white);
+}
+
+.flowsoft-btn--secondary.is-loading::after,
+.flowsoft-btn--ghost.is-loading::after {
+    color: var(--fs-gray-500);
+}
+
+@keyframes fs-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ================================================================
+   QUICK ACTIONS
+   ================================================================ */
+.flowsoft-quick-actions {
+    display: flex;
+    flex-direction: column;
+    gap: var(--fs-space-sm);
+}
+
+.flowsoft-last-run {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--fs-gray-400);
+    padding-top: var(--fs-space-sm);
+    border-top: 1px solid var(--fs-gray-100);
+    margin-top: var(--fs-space-sm);
+}
+
+/* ================================================================
+   TABLE
+   ================================================================ */
+.flowsoft-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+.flowsoft-table thead {
+    background: var(--fs-gray-50);
+    border-bottom: 1px solid var(--fs-gray-200);
+}
+
+.flowsoft-table th {
+    padding: 10px 16px;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--fs-gray-500);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    text-align: left;
+    white-space: nowrap;
+}
+
+.flowsoft-table td {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--fs-gray-100);
+    color: var(--fs-gray-700);
+    vertical-align: middle;
+}
+
+.flowsoft-table tbody tr {
+    transition: var(--fs-transition);
+}
+
+.flowsoft-table tbody tr:hover {
+    background: var(--fs-gray-25);
+}
+
+.flowsoft-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.flowsoft-table--striped tbody tr:nth-child(even) {
+    background: var(--fs-gray-25);
+}
+
+.flowsoft-table--striped tbody tr:nth-child(even):hover {
+    background: var(--fs-gray-50);
+}
+
+.flowsoft-table__th--narrow {
+    width: 60px;
+}
+
+.flowsoft-table__message {
+    max-width: 300px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.flowsoft-table__date {
+    white-space: nowrap;
+    color: var(--fs-gray-400);
+    font-size: 12px;
+}
+
+.flowsoft-table__td--muted {
+    color: var(--fs-gray-400);
+    font-size: 12px;
+}
+
+/* ================================================================
+   BADGES
+   ================================================================ */
+.flowsoft-module-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--fs-gray-700);
+    white-space: nowrap;
+}
+
+.flowsoft-module-badge svg {
+    color: var(--fs-primary);
+    opacity: 0.7;
+}
+
+.flowsoft-status-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px 10px;
+    font-size: 11px;
+    font-weight: 600;
+    border-radius: var(--fs-radius-full);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.flowsoft-status-badge--success {
+    background: var(--fs-success-light);
+    color: #059669;
+}
+
+.flowsoft-status-badge--warning {
+    background: var(--fs-warning-light);
+    color: #D97706;
+}
+
+.flowsoft-status-badge--error {
+    background: var(--fs-danger-light);
+    color: #DC2626;
+}
+
+.flowsoft-code {
+    font-family: var(--fs-font-mono);
+    font-size: 11px;
+    padding: 2px 6px;
+    background: var(--fs-gray-100);
+    border-radius: 4px;
+    color: var(--fs-gray-600);
+}
+
+/* ================================================================
+   PAGINATION
+   ================================================================ */
+.flowsoft-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--fs-space-md) var(--fs-space-lg);
+    border-top: 1px solid var(--fs-gray-100);
+}
+
+.flowsoft-pagination__info {
+    font-size: 13px;
+    color: var(--fs-gray-500);
+}
+
+.flowsoft-pagination__buttons {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* ================================================================
+   FILTERS
+   ================================================================ */
+.flowsoft-filters {
+    display: flex;
+    align-items: flex-end;
+    gap: var(--fs-space-md);
+    flex-wrap: wrap;
+}
+
+.flowsoft-filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.flowsoft-filter-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--fs-gray-500);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* ================================================================
+   FORM ELEMENTS
+   ================================================================ */
+.flowsoft-input,
+.flowsoft-select {
+    font-family: var(--fs-font);
+    font-size: 14px;
+    padding: 9px 14px;
+    border: 1px solid var(--fs-gray-300);
+    border-radius: var(--fs-radius-md);
+    background: var(--fs-white);
+    color: var(--fs-gray-800);
+    transition: var(--fs-transition);
+    outline: none;
+    min-width: 0;
+    line-height: 1.5;
+}
+
+.flowsoft-input:hover,
+.flowsoft-select:hover {
+    border-color: var(--fs-gray-400);
+}
+
+.flowsoft-input:focus,
+.flowsoft-select:focus {
+    border-color: var(--fs-primary);
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.08);
+}
+
+.flowsoft-input:disabled,
+.flowsoft-select:disabled {
+    background: var(--fs-gray-50);
+    color: var(--fs-gray-400);
+    cursor: not-allowed;
+}
+
+.flowsoft-input--number {
+    width: 120px;
+}
+
+.flowsoft-select {
+    padding-right: 36px;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%239CA3AF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 16px;
+    cursor: pointer;
+}
+
+.flowsoft-select:focus {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%234F46E5' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+}
+
+/* ================================================================
+   SETTINGS
+   ================================================================ */
+.flowsoft-page-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: var(--fs-space-lg);
+    gap: var(--fs-space-md);
+}
+
+.flowsoft-page-header__left {
+    flex: 1;
+}
+
+.flowsoft-page-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--fs-gray-900);
+    margin: 0 0 4px 0;
+    padding: 0;
+    letter-spacing: -0.025em;
+}
+
+.flowsoft-page-desc {
+    font-size: 14px;
+    color: var(--fs-gray-500);
+    margin: 0;
+}
+
+.flowsoft-settings-section {
+    margin-bottom: var(--fs-space-lg);
+}
+
+.flowsoft-settings-section__title-wrap {
+    display: flex;
+    align-items: center;
+    gap: var(--fs-space-sm);
+}
+
+.flowsoft-settings-section__icon {
+    display: flex;
+    align-items: center;
+    color: var(--fs-primary);
+}
+
+.flowsoft-settings-fields {
+    display: flex;
+    flex-direction: column;
+    gap: var(--fs-space-lg);
+}
+
+.flowsoft-field {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--fs-space-md);
+    padding-bottom: var(--fs-space-md);
+    border-bottom: 1px solid var(--fs-gray-100);
+}
+
+.flowsoft-field:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.flowsoft-field__label {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--fs-gray-700);
+    flex: 1;
+}
+
+.flowsoft-field__help {
+    font-size: 12px;
+    color: var(--fs-gray-400);
+    margin: 4px 0 0;
+}
+
+.flowsoft-danger-actions {
+    display: flex;
+    flex-direction: column;
+    gap: var(--fs-space-md);
+}
+
+.flowsoft-danger-action {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--fs-space-lg);
+    padding: var(--fs-space-md);
+    background: var(--fs-gray-50);
+    border: 1px solid var(--fs-gray-200);
+    border-radius: var(--fs-radius-md);
+}
+
+.flowsoft-danger-action strong {
+    color: var(--fs-gray-800);
+    font-size: 14px;
+}
+
+.flowsoft-settings-footer {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: var(--fs-space-lg);
+}
+
+/* ================================================================
+   EMPTY STATE
+   ================================================================ */
+.flowsoft-empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: var(--fs-space-2xl);
+    text-align: center;
+    color: var(--fs-gray-400);
+}
+
+.flowsoft-empty-state svg {
+    margin-bottom: var(--fs-space-md);
+    opacity: 0.4;
+}
+
+.flowsoft-empty-state p {
+    font-size: 14px;
+    max-width: 360px;
+    margin: 0;
+    line-height: 1.6;
+}
+
+/* ================================================================
+   TOAST NOTIFICATIONS
+   ================================================================ */
+.flowsoft-toast-container {
+    position: fixed;
+    bottom: var(--fs-space-lg);
+    right: var(--fs-space-lg);
+    z-index: 10000;
+    display: flex;
+    flex-direction: column-reverse;
+    gap: var(--fs-space-sm);
+    pointer-events: none;
+}
+
+.flowsoft-toast {
+    display: flex;
+    align-items: center;
+    gap: var(--fs-space-sm);
+    padding: 12px 20px;
+    background: var(--fs-gray-900);
+    color: var(--fs-white);
+    border-radius: var(--fs-radius-md);
+    box-shadow: var(--fs-shadow-xl);
+    font-size: 13px;
+    font-weight: 500;
+    pointer-events: all;
+    animation: fs-toast-in 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    max-width: 400px;
+}
+
+.flowsoft-toast--success {
+    background: #059669;
+}
+
+.flowsoft-toast--error {
+    background: #DC2626;
+}
+
+.flowsoft-toast--warning {
+    background: #D97706;
+}
+
+.flowsoft-toast.is-hiding {
+    animation: fs-toast-out 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes fs-toast-in {
+    from {
+        opacity: 0;
+        transform: translateY(12px) scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes fs-toast-out {
+    from {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+
+    to {
+        opacity: 0;
+        transform: translateY(-8px) scale(0.95);
+    }
+}
+
+/* ================================================================
+   ANIMATIONS
+   ================================================================ */
+@keyframes fs-fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.flowsoft-stats-row .flowsoft-stat-card {
+    animation: fs-fade-in 0.4s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+.flowsoft-stats-row .flowsoft-stat-card:nth-child(1) {
+    animation-delay: 0.05s;
+}
+
+.flowsoft-stats-row .flowsoft-stat-card:nth-child(2) {
+    animation-delay: 0.1s;
+}
+
+.flowsoft-stats-row .flowsoft-stat-card:nth-child(3) {
+    animation-delay: 0.15s;
+}
+
+.flowsoft-stats-row .flowsoft-stat-card:nth-child(4) {
+    animation-delay: 0.2s;
+}
+
+.flowsoft-modules-grid .flowsoft-module-card {
+    animation: fs-fade-in 0.4s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+.flowsoft-modules-grid .flowsoft-module-card:nth-child(1) {
+    animation-delay: 0.05s;
+}
+
+.flowsoft-modules-grid .flowsoft-module-card:nth-child(2) {
+    animation-delay: 0.1s;
+}
+
+.flowsoft-modules-grid .flowsoft-module-card:nth-child(3) {
+    animation-delay: 0.15s;
+}
+
+.flowsoft-modules-grid .flowsoft-module-card:nth-child(4) {
+    animation-delay: 0.2s;
+}
+
+.flowsoft-modules-grid .flowsoft-module-card:nth-child(5) {
+    animation-delay: 0.25s;
+}
+
+.flowsoft-modules-grid .flowsoft-module-card:nth-child(6) {
+    animation-delay: 0.3s;
+}
+
+.flowsoft-modules-grid .flowsoft-module-card:nth-child(7) {
+    animation-delay: 0.35s;
+}
+
+.flowsoft-modules-grid .flowsoft-module-card:nth-child(8) {
+    animation-delay: 0.4s;
+}
+
+.flowsoft-dashboard-grid>* {
+    animation: fs-fade-in 0.4s cubic-bezier(0.4, 0, 0.2, 1) both;
+    animation-delay: 0.25s;
+}
+
+.flowsoft-dashboard-grid>*:nth-child(2) {
+    animation-delay: 0.3s;
+}
+
+/* ================================================================
+   RESPONSIVE TWEAKS
+   ================================================================ */
+@media screen and (max-width: 600px) {
+    .flowsoft-header__nav-item span {
+        display: none;
+    }
+
+    .flowsoft-table {
+        font-size: 12px;
+    }
+
+    .flowsoft-table th,
+    .flowsoft-table td {
+        padding: 8px 10px;
+    }
+
+    .flowsoft-stat-card__value {
+        font-size: 20px;
+    }
+
+    .flowsoft-page-header {
+        flex-direction: column;
+        gap: var(--fs-space-sm);
+    }
+
+    .flowsoft-pagination {
+        flex-direction: column;
+        gap: var(--fs-space-sm);
+    }
+
+    .flowsoft-filters {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .flowsoft-danger-action {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+/* ================================================================
+   DOCUMENTATION MODAL
+   ================================================================ */
+.flowsoft-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 10001;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--fs-space-lg);
+}
+
+.flowsoft-modal__backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    animation: fs-fade-backdrop 0.25s ease;
+}
+
+@keyframes fs-fade-backdrop {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.flowsoft-modal__container {
+    position: relative;
+    width: 100%;
+    max-width: 820px;
+    max-height: 85vh;
+    background: var(--fs-white);
+    border-radius: var(--fs-radius-xl);
+    box-shadow: var(--fs-shadow-xl), 0 0 0 1px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    animation: fs-modal-in 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+}
+
+@keyframes fs-modal-in {
+    from {
+        opacity: 0;
+        transform: scale(0.95) translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.flowsoft-modal__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--fs-space-lg);
+    border-bottom: 1px solid var(--fs-gray-100);
+    flex-shrink: 0;
+}
+
+.flowsoft-modal__header-left {
+    display: flex;
+    align-items: center;
+    gap: var(--fs-space-md);
+}
+
+.flowsoft-modal__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    background: linear-gradient(135deg, var(--fs-primary-light), #EDE9FE);
+    border-radius: var(--fs-radius-md);
+    color: var(--fs-primary);
+    flex-shrink: 0;
+}
+
+.flowsoft-modal__title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--fs-gray-900);
+    margin: 0;
+    padding: 0;
+    letter-spacing: -0.025em;
+}
+
+.flowsoft-modal__subtitle {
+    font-size: 13px;
+    color: var(--fs-gray-400);
+    margin: 2px 0 0 0;
+}
+
+.flowsoft-modal__close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border: none;
+    background: transparent;
+    border-radius: var(--fs-radius-sm);
+    color: var(--fs-gray-400);
+    cursor: pointer;
+    transition: var(--fs-transition);
+    flex-shrink: 0;
+}
+
+.flowsoft-modal__close:hover {
+    background: var(--fs-gray-100);
+    color: var(--fs-gray-700);
+}
+
+/* Modal Navigation */
+.flowsoft-modal__nav {
+    display: flex;
+    gap: 2px;
+    padding: var(--fs-space-sm) var(--fs-space-lg);
+    border-bottom: 1px solid var(--fs-gray-100);
+    overflow-x: auto;
+    flex-shrink: 0;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+}
+
+.flowsoft-modal__nav::-webkit-scrollbar {
+    display: none;
+}
+
+.flowsoft-modal__nav-btn {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 7px 12px;
+    font-family: var(--fs-font);
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--fs-gray-500);
+    background: transparent;
+    border: none;
+    border-radius: var(--fs-radius-sm);
+    cursor: pointer;
+    transition: var(--fs-transition);
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.flowsoft-modal__nav-btn:hover {
+    background: var(--fs-gray-50);
+    color: var(--fs-gray-700);
+}
+
+.flowsoft-modal__nav-btn.is-active {
+    background: var(--fs-primary-light);
+    color: var(--fs-primary);
+    font-weight: 600;
+}
+
+.flowsoft-modal__nav-btn svg {
+    opacity: 0.6;
+    flex-shrink: 0;
+}
+
+.flowsoft-modal__nav-btn.is-active svg {
+    opacity: 1;
+}
+
+/* Modal Body */
+.flowsoft-modal__body {
+    padding: var(--fs-space-lg);
+    overflow-y: auto;
+    flex: 1;
+    min-height: 0;
+}
+
+.flowsoft-docs-section {
+    display: none;
+    animation: fs-fade-in 0.3s ease;
+}
+
+.flowsoft-docs-section.is-active {
+    display: block;
+}
+
+.flowsoft-docs-section h3 {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--fs-gray-900);
+    margin: 0 0 var(--fs-space-sm) 0;
+    letter-spacing: -0.025em;
+}
+
+.flowsoft-docs-section h4 {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--fs-gray-800);
+    margin: var(--fs-space-lg) 0 var(--fs-space-sm) 0;
+}
+
+.flowsoft-docs-section>p {
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--fs-gray-600);
+    margin: 0 0 var(--fs-space-md) 0;
+}
+
+/* Docs Badge */
+.flowsoft-docs-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 12px;
+    font-size: 11px;
+    font-weight: 600;
+    border-radius: var(--fs-radius-full);
+    margin-bottom: var(--fs-space-md);
+}
+
+.flowsoft-docs-badge--schedule {
+    background: var(--fs-info-light);
+    color: var(--fs-info);
+}
+
+.flowsoft-docs-badge--realtime {
+    background: #F0FDF4;
+    color: #16A34A;
+}
+
+/* Docs Hero */
+.flowsoft-docs-hero {
+    padding: var(--fs-space-lg);
+    background: linear-gradient(135deg, var(--fs-primary-light), #EDE9FE);
+    border-radius: var(--fs-radius-lg);
+    margin-bottom: var(--fs-space-lg);
+}
+
+.flowsoft-docs-hero h3 {
+    color: var(--fs-primary);
+}
+
+.flowsoft-docs-hero p {
+    color: var(--fs-gray-700);
+    margin: 0;
+}
+
+/* Docs Features Grid */
+.flowsoft-docs-features {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--fs-space-md);
+}
+
+@media screen and (max-width: 640px) {
+    .flowsoft-docs-features {
+        grid-template-columns: 1fr;
+    }
+}
+
+.flowsoft-docs-feature {
+    display: flex;
+    gap: var(--fs-space-sm);
+    padding: var(--fs-space-md);
+    background: var(--fs-gray-50);
+    border: 1px solid var(--fs-gray-100);
+    border-radius: var(--fs-radius-md);
+}
+
+.flowsoft-docs-feature__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: var(--fs-radius-sm);
+    flex-shrink: 0;
+}
+
+.flowsoft-docs-feature__icon--indigo {
+    background: var(--fs-primary-light);
+    color: var(--fs-primary);
+}
+
+.flowsoft-docs-feature__icon--emerald {
+    background: var(--fs-success-light);
+    color: var(--fs-success);
+}
+
+.flowsoft-docs-feature__icon--amber {
+    background: var(--fs-warning-light);
+    color: var(--fs-warning);
+}
+
+.flowsoft-docs-feature__icon--rose {
+    background: var(--fs-danger-light);
+    color: var(--fs-danger);
+}
+
+.flowsoft-docs-feature strong {
+    font-size: 13px;
+    color: var(--fs-gray-800);
+    display: block;
+    margin-bottom: 2px;
+}
+
+.flowsoft-docs-feature p {
+    font-size: 12px;
+    color: var(--fs-gray-500);
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* Docs List */
+.flowsoft-docs-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--fs-space-sm);
+}
+
+.flowsoft-docs-list__item {
+    display: flex;
+    gap: var(--fs-space-sm);
+    padding: var(--fs-space-md);
+    background: var(--fs-gray-50);
+    border: 1px solid var(--fs-gray-100);
+    border-radius: var(--fs-radius-md);
+    transition: var(--fs-transition);
+}
+
+.flowsoft-docs-list__item:hover {
+    border-color: var(--fs-gray-200);
+    background: var(--fs-white);
+}
+
+.flowsoft-docs-list__icon {
+    font-size: 20px;
+    flex-shrink: 0;
+    width: 28px;
+    text-align: center;
+    line-height: 1.4;
+}
+
+.flowsoft-docs-list__item strong {
+    font-size: 13px;
+    color: var(--fs-gray-800);
+    display: block;
+    margin-bottom: 2px;
+}
+
+.flowsoft-docs-list__item p {
+    font-size: 13px;
+    color: var(--fs-gray-500);
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* Docs Callout */
+.flowsoft-docs-callout {
+    padding: var(--fs-space-md);
+    background: var(--fs-primary-light);
+    border: 1px solid rgba(79, 70, 229, 0.15);
+    border-radius: var(--fs-radius-md);
+    margin-top: var(--fs-space-lg);
+}
+
+.flowsoft-docs-callout strong {
+    font-size: 14px;
+    color: var(--fs-primary);
+    display: block;
+    margin-bottom: 4px;
+}
+
+.flowsoft-docs-callout p {
+    font-size: 13px;
+    color: var(--fs-gray-700);
+    line-height: 1.5;
+    margin: 0;
+}
+
+.flowsoft-docs-callout--warning {
+    background: var(--fs-warning-light);
+    border-color: rgba(245, 158, 11, 0.2);
+}
+
+.flowsoft-docs-callout--warning strong {
+    color: #B45309;
+}
+
+/* Modal responsive */
+@media screen and (max-width: 640px) {
+    .flowsoft-modal {
+        padding: var(--fs-space-sm);
+    }
+
+    .flowsoft-modal__container {
+        max-height: 92vh;
+        border-radius: var(--fs-radius-lg);
+    }
+
+    .flowsoft-modal__header {
+        padding: var(--fs-space-md);
+    }
+
+    .flowsoft-modal__header-left {
+        gap: var(--fs-space-sm);
+    }
+
+    .flowsoft-modal__icon {
+        width: 36px;
+        height: 36px;
+    }
+
+    .flowsoft-modal__title {
+        font-size: 15px;
+    }
+
+    .flowsoft-modal__subtitle {
+        display: none;
+    }
+
+    .flowsoft-modal__nav {
+        padding: var(--fs-space-xs) var(--fs-space-md);
+    }
+
+    .flowsoft-modal__body {
+        padding: var(--fs-space-md);
+    }
+}
+
+/* ================================================================
+   DOCUMENTATION PAGE LAYOUT
+   ================================================================ */
+.flowsoft-docs-layout {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: var(--fs-space-lg);
+    align-items: start;
+}
+
+@media screen and (max-width: 820px) {
+    .flowsoft-docs-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+.flowsoft-docs-sidebar {
+    position: sticky;
+    top: 120px;
+}
+
+.flowsoft-docs-sidebar__nav {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    background: var(--fs-white);
+    border: 1px solid var(--fs-gray-200);
+    border-radius: var(--fs-radius-lg);
+    padding: var(--fs-space-sm);
+    box-shadow: var(--fs-shadow-sm);
+}
+
+.flowsoft-docs-sidebar__item {
+    display: flex;
+    align-items: center;
+    gap: var(--fs-space-sm);
+    padding: 9px 14px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--fs-gray-500);
+    text-decoration: none;
+    border-radius: var(--fs-radius-sm);
+    transition: var(--fs-transition);
+    white-space: nowrap;
+}
+
+.flowsoft-docs-sidebar__item:hover {
+    color: var(--fs-gray-800);
+    background: var(--fs-gray-50);
+}
+
+.flowsoft-docs-sidebar__item.is-active {
+    color: var(--fs-primary);
+    background: var(--fs-primary-light);
+    font-weight: 600;
+}
+
+.flowsoft-docs-sidebar__item svg {
+    flex-shrink: 0;
+    opacity: 0.5;
+}
+
+.flowsoft-docs-sidebar__item.is-active svg {
+    opacity: 1;
+}
+
+.flowsoft-docs-content {
+    background: var(--fs-white);
+    border: 1px solid var(--fs-gray-200);
+    border-radius: var(--fs-radius-lg);
+    padding: var(--fs-space-xl);
+    box-shadow: var(--fs-shadow-sm);
+    min-height: 400px;
+}
+
+.flowsoft-docs-content h3 {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--fs-gray-900);
+    margin: 0 0 var(--fs-space-sm) 0;
+    letter-spacing: -0.025em;
+}
+
+.flowsoft-docs-content h4 {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--fs-gray-800);
+    margin: var(--fs-space-lg) 0 var(--fs-space-sm) 0;
+}
+
+.flowsoft-docs-content>p {
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--fs-gray-600);
+    margin: 0 0 var(--fs-space-md) 0;
+}
+
+@media screen and (max-width: 820px) {
+    .flowsoft-docs-sidebar {
+        position: static;
+    }
+
+    .flowsoft-docs-sidebar__nav {
+        flex-direction: row;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+    }
+
+    .flowsoft-docs-sidebar__nav::-webkit-scrollbar {
+        display: none;
+    }
+
+    .flowsoft-docs-content {
+        padding: var(--fs-space-lg);
+    }
+}
+
+/* ================================================================
+   DOCUMENTATION COMPONENTS
+   ================================================================ */
+
+/* Hero block */
+.flowsoft-docs-hero {
+    background: linear-gradient(135deg, var(--fs-primary-light), #EDE9FE);
+    border-radius: var(--fs-radius-lg);
+    padding: var(--fs-space-xl);
+    margin-bottom: var(--fs-space-lg);
+}
+
+.flowsoft-docs-hero h3 {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--fs-gray-900);
+    margin: 0 0 var(--fs-space-sm) 0;
+}
+
+.flowsoft-docs-hero p {
+    font-size: 14px;
+    line-height: 1.8;
+    color: var(--fs-gray-600);
+    margin: 0;
+}
+
+/* Features grid */
+.flowsoft-docs-features {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--fs-space-md);
+}
+
+@media screen and (max-width: 700px) {
+    .flowsoft-docs-features {
+        grid-template-columns: 1fr;
+    }
+}
+
+.flowsoft-docs-feature {
+    display: flex;
+    gap: var(--fs-space-md);
+    padding: var(--fs-space-lg);
+    background: var(--fs-gray-50);
+    border: 1px solid var(--fs-gray-200);
+    border-radius: var(--fs-radius-md);
+    transition: var(--fs-transition);
+}
+
+.flowsoft-docs-feature:hover {
+    border-color: var(--fs-gray-300);
+    box-shadow: var(--fs-shadow-sm);
+}
+
+.flowsoft-docs-feature__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--fs-radius-md);
+    flex-shrink: 0;
+}
+
+.flowsoft-docs-feature__icon--indigo {
+    background: var(--fs-primary-light);
+    color: var(--fs-primary);
+}
+
+.flowsoft-docs-feature__icon--emerald {
+    background: var(--fs-success-light);
+    color: var(--fs-success);
+}
+
+.flowsoft-docs-feature__icon--amber {
+    background: var(--fs-warning-light);
+    color: var(--fs-warning);
+}
+
+.flowsoft-docs-feature__icon--rose {
+    background: var(--fs-danger-light);
+    color: var(--fs-danger);
+}
+
+.flowsoft-docs-feature strong {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--fs-gray-800);
+    margin-bottom: 4px;
+}
+
+.flowsoft-docs-feature p {
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--fs-gray-500);
+    margin: 0;
+}
+
+/* Document list */
+.flowsoft-docs-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--fs-space-sm);
+    margin-top: var(--fs-space-sm);
+}
+
+.flowsoft-docs-list__item {
+    display: flex;
+    gap: var(--fs-space-md);
+    padding: var(--fs-space-md) var(--fs-space-lg);
+    background: var(--fs-gray-50);
+    border: 1px solid var(--fs-gray-200);
+    border-radius: var(--fs-radius-md);
+    transition: var(--fs-transition);
+}
+
+.flowsoft-docs-list__item:hover {
+    border-color: var(--fs-gray-300);
+}
+
+.flowsoft-docs-list__item strong {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--fs-gray-800);
+    margin-bottom: 4px;
+}
+
+.flowsoft-docs-list__item p {
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--fs-gray-500);
+    margin: 0;
+}
+
+/* Callout boxes */
+.flowsoft-docs-callout {
+    background: var(--fs-info-light);
+    border-left: 4px solid var(--fs-info);
+    border-radius: 0 var(--fs-radius-md) var(--fs-radius-md) 0;
+    padding: var(--fs-space-md) var(--fs-space-lg);
+    margin-top: var(--fs-space-lg);
+}
+
+.flowsoft-docs-callout--warning {
+    background: var(--fs-warning-light);
+    border-left-color: var(--fs-warning);
+}
+
+.flowsoft-docs-callout strong {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--fs-gray-800);
+    margin-bottom: 4px;
+}
+
+.flowsoft-docs-callout p {
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--fs-gray-600);
+    margin: 0;
+}
+
+/* Badges */
+.flowsoft-docs-badge {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: var(--fs-radius-full);
+    margin-bottom: var(--fs-space-md);
+}
+
+.flowsoft-docs-badge--schedule {
+    background: var(--fs-primary-light);
+    color: var(--fs-primary);
+}
+
+.flowsoft-docs-badge--realtime {
+    background: var(--fs-success-light);
+    color: var(--fs-success);
+}
