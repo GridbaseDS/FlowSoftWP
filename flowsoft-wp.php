@@ -97,8 +97,9 @@ function flowsoft_wp_init() {
     $auth = \Gridbase\Auth\GridbaseAuth::init('flowsoft-wp', 'FlowSoft WP', FLOWSOFT_VERSION);
 
     if ( ! $auth->is_active() ) {
-        // Stop execution of the core plugin features when unlicensed
-        return;
+        // We no longer stop execution here. We allow the UI to load
+        // so that the Gridbase Auth Verificator overlay can clearly 
+        // show the user that the plugin requires a license.
     }
 
     // Proceed with normal plugin booting

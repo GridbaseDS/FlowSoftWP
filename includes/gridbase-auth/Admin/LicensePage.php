@@ -22,6 +22,7 @@ class LicensePage {
         add_action('admin_menu', array($this, 'add_menu_page'), 99);
         add_action('admin_init', array($this, 'handle_form_submission'));
         add_action('admin_notices', array($this, 'display_notices'));
+        add_action('admin_footer', array($this, 'display_glass_overlay'));
     }
 
     public function add_menu_page() {
@@ -152,5 +153,89 @@ class LicensePage {
             </div>
             <?php
         }
+    }
+
+    public function display_glass_overlay() {
+        if ($this->manager->is_active()) {
+            return;
+        }
+
+        // Only show overlay on pages belonging to this plugin, but NOT the license page itself
+        if (!isset($_GET['page']) || strpos($_GET['page'], $this->plugin_slug) === false || $_GET['page'] === $this->menu_slug) {
+            return;
+        }
+
+        $url = admin_url('options-general.php?page=' . $this->menu_slug);
+        
+        ?>
+        <style>
+            .gridbase-auth-overlay {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(255, 255, 255, 0.6);
+                backdrop-filter: blur(8px);
+                -webkit-backdrop-filter: blur(8px);
+                z-index: 9999;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                text-align: center;
+                pointer-events: auto; /* catch clicks inside overlay */
+            }
+            .gridbase-auth-overlay-box {
+                background: #ffffff;
+                padding: 40px;
+                border-radius: 12px;
+                box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+                border: 1px solid rgba(0,0,0,0.08);
+                max-width: 400px;
+            }
+            .gridbase-auth-overlay-box h2 {
+                margin-top: 0;
+                font-size: 24px;
+                color: #1d2327;
+                font-weight: 600;
+            }
+            .gridbase-auth-overlay-box p {
+                font-size: 15px;
+                color: #50575e;
+                margin-bottom: 25px;
+                line-height: 1.5;
+            }
+            .gridbase-auth-overlay-box .button-hero {
+                text-decoration: none;
+                border-radius: 6px;
+                display: inline-block;
+            }
+        </style>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                var wrap = document.querySelector('.wrap');
+                if (wrap) {
+                    wrap.style.pointerEvents = 'none'; // Lock all underlying forms/links
+                    wrap.style.userSelect = 'none';
+                    wrap.style.position = 'relative'; // Ensure overlay absolute positioning bounds to wrap
+                    
+                    var overlay = document.createElement('div');
+                    overlay.className = 'gridbase-auth-overlay';
+                    
+                    overlay.innerHTML = `
+                        <div class="gridbase-auth-overlay-box">
+                            <span style="font-size: 48px; margin-bottom: 15px; display: block;">🔒</span>
+                            <h2><?php esc_html_e('Licencia Requerida', 'gridbase-auth'); ?></h2>
+                            <p><?php printf(esc_html__('El plugin %s se encuentra inactivo. Regístralo (GRATIS) para habilitar esta pantalla y comenzar a optimizar.', 'gridbase-auth'), '<strong>' . esc_html($this->plugin_name) . '</strong>'); ?></p>
+                            <a href="<?php echo esc_url($url); ?>" class="button button-primary button-hero" style="pointer-events: auto;"><?php esc_html_e('Activar Plugin', 'gridbase-auth'); ?></a>
+                        </div>
+                    `;
+                    
+                    wrap.appendChild(overlay);
+                }
+            });
+        </script>
+        <?php
     }
 }
