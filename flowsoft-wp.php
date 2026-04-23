@@ -91,6 +91,17 @@ if ( is_admin() ) {
  *-------------------------------------------------------------*/
 function flowsoft_wp_init() {
     load_plugin_textdomain( 'flowsoft-wp', false, dirname( plugin_basename( FLOWSOFT_PLUGIN_FILE ) ) . '/languages' );
+    
+    // Gridbase Auth Verificator Integration
+    require_once FLOWSOFT_PLUGIN_DIR . 'includes/gridbase-auth/autoload.php';
+    $auth = \Gridbase\Auth\GridbaseAuth::init('flowsoft-wp', 'FlowSoft WP', FLOWSOFT_VERSION);
+
+    if ( ! $auth->is_active() ) {
+        // Stop execution of the core plugin features when unlicensed
+        return;
+    }
+
+    // Proceed with normal plugin booting
     $core = FlowSoft_Core::get_instance();
     $core->run();
 }
