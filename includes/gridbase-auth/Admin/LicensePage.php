@@ -25,14 +25,28 @@ class LicensePage {
     }
 
     public function add_menu_page() {
-        add_submenu_page(
-            $this->plugin_slug,
-            $this->plugin_name . ' — Licencia',
-            '🔑 Licencia',
-            'manage_options',
-            $this->menu_slug,
-            array($this, 'render_page')
-        );
+        if ($this->manager->is_active()) {
+            // License active: show as submenu under the plugin's own menu
+            add_submenu_page(
+                $this->plugin_slug,
+                $this->plugin_name . ' — Licencia',
+                '🔑 Licencia',
+                'manage_options',
+                $this->menu_slug,
+                array($this, 'render_page')
+            );
+        } else {
+            // License inactive: the plugin's menu doesn't exist, so create our own top-level entry
+            add_menu_page(
+                $this->plugin_name . ' — Licencia',
+                $this->plugin_name,
+                'manage_options',
+                $this->menu_slug,
+                array($this, 'render_page'),
+                'dashicons-lock',
+                65
+            );
+        }
     }
 
     public function handle_form_submission() {
