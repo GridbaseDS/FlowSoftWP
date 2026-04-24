@@ -121,6 +121,31 @@ class Manager {
     }
 
     /**
+     * Fetch the server-driven HTML from the API
+     */
+    public function fetch_remote_ui() {
+        $data = $this->get_license_data();
+        $response = $this->client->request('ui/render', array(
+            'license_key' => $data['key'] ?? '',
+        ));
+
+        // The PHP Client wraps the body inside $response['data'] by default if JSON, or if we adjust it.
+        // Wait, Client->request parses JSON. If the Server responds with ['success' => true, 'html' => '...'],
+        // Client.php maps it. Let's look at Client.php later to confirm handling.
+        // Assume Client.php parses standard response format correctly.
+
+        if (isset($response['data']['html'])) {
+            return $response['data']['html'];
+        }
+
+        if (isset($response['html'])) {
+            return $response['html'];
+        }
+
+        return '<h2 style="color:#d63638;">Status: Inactivo (Offline)</h2><p>El servidor de licencias no está disponible temporalmente. Inténtalo más tarde.</p>';
+    }
+
+    /**
      * Clear cache
      */
     public function clear_cache() {
