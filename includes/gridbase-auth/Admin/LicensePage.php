@@ -26,9 +26,9 @@ class LicensePage {
 
     public function add_menu_page() {
         add_submenu_page(
-            'options-general.php',
-            $this->plugin_name . ' License',
-            $this->plugin_name . ' License',
+            $this->plugin_slug,
+            $this->plugin_name . ' — Licencia',
+            '🔑 Licencia',
             'manage_options',
             $this->menu_slug,
             array($this, 'render_page')
