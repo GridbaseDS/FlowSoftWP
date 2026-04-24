@@ -23,7 +23,7 @@ class Client {
     /**
      * Common method to make API requests
      */
-    private function request($endpoint, $body_params = array()) {
+    public function request($endpoint, $body_params = array()) {
         $url = $this->api_url . '/api/v1/licenses/' . ltrim($endpoint, '/');
 
         $default_params = array(
