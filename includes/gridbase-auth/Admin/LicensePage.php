@@ -12,14 +12,12 @@ class LicensePage {
     private $plugin_name;
     private $plugin_slug;
     private $menu_slug;
-    private $type;
 
-    public function __construct(Manager $manager, $plugin_name, $plugin_slug, $type = 'free') {
+    public function __construct(Manager $manager, $plugin_name, $plugin_slug) {
         $this->manager = $manager;
         $this->plugin_name = $plugin_name;
         $this->plugin_slug = $plugin_slug;
         $this->menu_slug = $plugin_slug . '-license';
-        $this->type = $type;
 
         add_action('admin_menu', array($this, 'add_menu_page'), 99);
         add_action('admin_init', array($this, 'handle_form_submission'));
